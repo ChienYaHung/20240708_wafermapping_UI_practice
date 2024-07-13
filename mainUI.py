@@ -75,10 +75,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.comboBox = QComboBox(self.verticalLayoutWidget_4)
-        self.comboBox.setObjectName(u"comboBox")
+        self.wafer_id_box = QComboBox(self.verticalLayoutWidget_4)
+        self.wafer_id_box.setObjectName(u"wafer_id_box")
 
-        self.horizontalLayout_4.addWidget(self.comboBox)
+        self.horizontalLayout_4.addWidget(self.wafer_id_box)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
@@ -89,19 +89,19 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.comboBox_2 = QComboBox(self.verticalLayoutWidget_4)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.view_item_box = QComboBox(self.verticalLayoutWidget_4)
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.addItem("")
+        self.view_item_box.setObjectName(u"view_item_box")
 
-        self.horizontalLayout_5.addWidget(self.comboBox_2)
+        self.horizontalLayout_5.addWidget(self.view_item_box)
 
         self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -112,11 +112,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.lineEdit = QLineEdit(self.verticalLayoutWidget_4)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setInputMethodHints(Qt.ImhDigitsOnly)
+        self.max_spec_input = QLineEdit(self.verticalLayoutWidget_4)
+        self.max_spec_input.setObjectName(u"max_spec_input")
+        self.max_spec_input.setInputMethodHints(Qt.ImhDigitsOnly)
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.max_spec_input)
 
         self.horizontalSpacer = QSpacerItem(300, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
 
@@ -127,11 +127,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.lineEdit_2 = QLineEdit(self.verticalLayoutWidget_4)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
-        self.lineEdit_2.setInputMethodHints(Qt.ImhDigitsOnly)
+        self.min_spec_input = QLineEdit(self.verticalLayoutWidget_4)
+        self.min_spec_input.setObjectName(u"min_spec_input")
+        self.min_spec_input.setInputMethodHints(Qt.ImhDigitsOnly)
 
-        self.horizontalLayout_2.addWidget(self.lineEdit_2)
+        self.horizontalLayout_2.addWidget(self.min_spec_input)
 
         self.horizontalSpacer_2 = QSpacerItem(300, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
 
@@ -193,46 +193,46 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.tableWidget = QTableWidget(self.verticalLayoutWidget_4)
-        if (self.tableWidget.columnCount() < 11):
-            self.tableWidget.setColumnCount(11)
+        self.view_data_table = QTableWidget(self.verticalLayoutWidget_4)
+        if (self.view_data_table.columnCount() < 11):
+            self.view_data_table.setColumnCount(11)
         __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        self.view_data_table.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        self.view_data_table.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        self.view_data_table.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        self.view_data_table.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         __qtablewidgetitem4 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        self.view_data_table.setHorizontalHeaderItem(4, __qtablewidgetitem4)
         __qtablewidgetitem5 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        self.view_data_table.setHorizontalHeaderItem(5, __qtablewidgetitem5)
         __qtablewidgetitem6 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        self.view_data_table.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         __qtablewidgetitem7 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(7, __qtablewidgetitem7)
+        self.view_data_table.setHorizontalHeaderItem(7, __qtablewidgetitem7)
         __qtablewidgetitem8 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(8, __qtablewidgetitem8)
+        self.view_data_table.setHorizontalHeaderItem(8, __qtablewidgetitem8)
         __qtablewidgetitem9 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(9, __qtablewidgetitem9)
+        self.view_data_table.setHorizontalHeaderItem(9, __qtablewidgetitem9)
         __qtablewidgetitem10 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(10, __qtablewidgetitem10)
-        if (self.tableWidget.rowCount() < 1):
-            self.tableWidget.setRowCount(1)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setMinimumSize(QSize(0, 200))
-        self.tableWidget.setFocusPolicy(Qt.NoFocus)
-        self.tableWidget.setInputMethodHints(Qt.ImhNone)
-        self.tableWidget.setAutoScroll(True)
-        self.tableWidget.setRowCount(1)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(80)
-        self.tableWidget.horizontalHeader().setHighlightSections(False)
-        self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
-        self.tableWidget.verticalHeader().setHighlightSections(False)
+        self.view_data_table.setHorizontalHeaderItem(10, __qtablewidgetitem10)
+        if (self.view_data_table.rowCount() < 1):
+            self.view_data_table.setRowCount(1)
+        self.view_data_table.setObjectName(u"view_data_table")
+        self.view_data_table.setMinimumSize(QSize(0, 200))
+        self.view_data_table.setFocusPolicy(Qt.NoFocus)
+        self.view_data_table.setInputMethodHints(Qt.ImhNone)
+        self.view_data_table.setAutoScroll(True)
+        self.view_data_table.setRowCount(1)
+        self.view_data_table.horizontalHeader().setDefaultSectionSize(80)
+        self.view_data_table.horizontalHeader().setHighlightSections(False)
+        self.view_data_table.verticalHeader().setVisible(False)
+        self.view_data_table.verticalHeader().setCascadingSectionResizes(False)
+        self.view_data_table.verticalHeader().setHighlightSections(False)
 
-        self.verticalLayout.addWidget(self.tableWidget)
+        self.verticalLayout.addWidget(self.view_data_table)
 
         self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -248,7 +248,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.comboBox_2.setCurrentIndex(3)
+        self.view_item_box.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -260,39 +260,39 @@ class Ui_MainWindow(object):
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u7e6a\u5716\u9805\u76ee\uff1a", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Color Bar \u4e0a\u9650\uff1a", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Color Bar \u4e0b\u9650\uff1a", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("MainWindow", u"Vf1", None))
-        self.comboBox_2.setItemText(1, QCoreApplication.translate("MainWindow", u"Vf2", None))
-        self.comboBox_2.setItemText(2, QCoreApplication.translate("MainWindow", u"Vr1", None))
-        self.comboBox_2.setItemText(3, QCoreApplication.translate("MainWindow", u"Ir1", None))
-        self.comboBox_2.setItemText(4, QCoreApplication.translate("MainWindow", u"Rs", None))
-        self.comboBox_2.setItemText(5, QCoreApplication.translate("MainWindow", u"Iv2", None))
-        self.comboBox_2.setItemText(6, QCoreApplication.translate("MainWindow", u"Wd2", None))
-        self.comboBox_2.setItemText(7, QCoreApplication.translate("MainWindow", u"Wp2", None))
-        self.comboBox_2.setItemText(8, QCoreApplication.translate("MainWindow", u"Vf0", None))
+        self.view_item_box.setItemText(0, QCoreApplication.translate("MainWindow", u"Vf1", None))
+        self.view_item_box.setItemText(1, QCoreApplication.translate("MainWindow", u"Vf2", None))
+        self.view_item_box.setItemText(2, QCoreApplication.translate("MainWindow", u"Vr1", None))
+        self.view_item_box.setItemText(3, QCoreApplication.translate("MainWindow", u"Ir1", None))
+        self.view_item_box.setItemText(4, QCoreApplication.translate("MainWindow", u"Rs", None))
+        self.view_item_box.setItemText(5, QCoreApplication.translate("MainWindow", u"Iv2", None))
+        self.view_item_box.setItemText(6, QCoreApplication.translate("MainWindow", u"Wd2", None))
+        self.view_item_box.setItemText(7, QCoreApplication.translate("MainWindow", u"Wp2", None))
+        self.view_item_box.setItemText(8, QCoreApplication.translate("MainWindow", u"Vf0", None))
 
         self.read_data_button.setText(QCoreApplication.translate("MainWindow", u"\u8b80\u53d6\u6a94\u6848", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Data table", None))
-        ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem = self.view_data_table.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u7247\u865f", None));
-        ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem1 = self.view_data_table.horizontalHeaderItem(1)
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"X", None));
-        ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem2 = self.view_data_table.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Y", None));
-        ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
+        ___qtablewidgetitem3 = self.view_data_table.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Vf1", None));
-        ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
+        ___qtablewidgetitem4 = self.view_data_table.horizontalHeaderItem(4)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Vf2", None));
-        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
+        ___qtablewidgetitem5 = self.view_data_table.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Vr1", None));
-        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
+        ___qtablewidgetitem6 = self.view_data_table.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Ir1", None));
-        ___qtablewidgetitem7 = self.tableWidget.horizontalHeaderItem(7)
+        ___qtablewidgetitem7 = self.view_data_table.horizontalHeaderItem(7)
         ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Rs", None));
-        ___qtablewidgetitem8 = self.tableWidget.horizontalHeaderItem(8)
+        ___qtablewidgetitem8 = self.view_data_table.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"Iv2", None));
-        ___qtablewidgetitem9 = self.tableWidget.horizontalHeaderItem(9)
+        ___qtablewidgetitem9 = self.view_data_table.horizontalHeaderItem(9)
         ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Wd2", None));
-        ___qtablewidgetitem10 = self.tableWidget.horizontalHeaderItem(10)
+        ___qtablewidgetitem10 = self.view_data_table.horizontalHeaderItem(10)
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"Vf0", None));
     # retranslateUi
 

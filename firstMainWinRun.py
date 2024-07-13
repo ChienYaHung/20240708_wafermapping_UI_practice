@@ -30,6 +30,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         super(MyMainWindow, self).__init__(parent)
         self.setupUi(self)
 
+        # TODO:讀ma2檔
+        # TODO:將ma2檔檔名加入下拉式清單
+        # TODO:狀態列顯示讀取檔案數量
+
+        # 上下限只能打數字
+        self.min_spec_input.setValidator(QDoubleValidator(-9999, 9999, 2))
+        self.max_spec_input.setValidator(QDoubleValidator(-9999, 9999, 2))
+
 
 if __name__ == "__main__":
 

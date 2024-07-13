@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>976</width>
-    <height>622</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -361,7 +361,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>200</height>
+           <height>40</height>
           </size>
          </property>
          <property name="focusPolicy">
@@ -461,6 +461,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Test message</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="test_meaasge_box"/>
        </item>
       </layout>
      </item>

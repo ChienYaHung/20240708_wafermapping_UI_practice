@@ -18,13 +18,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QHeaderView, QLabel, QLineEdit, QMainWindow,
     QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(976, 622)
+        MainWindow.resize(976, 613)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMinimumSize(QSize(800, 0))
@@ -221,7 +222,7 @@ class Ui_MainWindow(object):
         if (self.view_data_table.rowCount() < 1):
             self.view_data_table.setRowCount(1)
         self.view_data_table.setObjectName(u"view_data_table")
-        self.view_data_table.setMinimumSize(QSize(0, 200))
+        self.view_data_table.setMinimumSize(QSize(0, 40))
         self.view_data_table.setFocusPolicy(Qt.NoFocus)
         self.view_data_table.setInputMethodHints(Qt.ImhNone)
         self.view_data_table.setAutoScroll(True)
@@ -237,6 +238,16 @@ class Ui_MainWindow(object):
         self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer_3)
+
+        self.label_2 = QLabel(self.verticalLayoutWidget_4)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout.addWidget(self.label_2)
+
+        self.test_meaasge_box = QTextEdit(self.verticalLayoutWidget_4)
+        self.test_meaasge_box.setObjectName(u"test_meaasge_box")
+
+        self.verticalLayout.addWidget(self.test_meaasge_box)
 
 
         self.verticalLayout_4.addLayout(self.verticalLayout)
@@ -294,5 +305,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Wd2", None));
         ___qtablewidgetitem10 = self.view_data_table.horizontalHeaderItem(10)
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"Vf0", None));
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Test message", None))
     # retranslateUi
 

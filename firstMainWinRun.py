@@ -33,6 +33,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # 初始參數
+        self.selected_wafer = None
+        self.df_all_ma2 = pd.DataFrame()
+        self.select_draw_parameter = 'Ir1'
+
         # 設定狀態列
         self.read_wafer_status_label = QLabel('尚未讀取任何檔案')
         self.chip_count_status_label = QLabel('Chip數：0')
@@ -49,6 +53,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # slot區
         self.read_data_button.clicked.connect(
             self.read_ma2_CSV)  # 儲存資訊至表格
+        self.wafer_id_box.activated.connect(
+            lambda x: self.set_Wafer_Select(self.wafer_id_box))
+        self.view_item_box.activated.connect(
+            lambda x: self.set_Parameter_Select(self.view_item_box))
+        self.mapping_button.clicked.connect(
+            lambda x: self.draw_Wafer_Mapping(self.df_all_ma2, self.selected_wafer, self.select_draw_parameter))
 
     # 讀ma2檔
     @Slot()
@@ -63,8 +73,63 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 建立所有ma2的dataframe
         self.set_ma2_dataframe(read_ma2_list)
 
+        # 呼叫"將ma2檔檔名加入下拉式清單"
+        self.add_combobox_item(self.wafer_name_list)
+
+        # 呼叫"狀態列設定"
+        self.set_status_bar_text(self.df_all_ma2, self.wafer_name_list)
+
+        # 初始參數設定
+        self.selected_wafer = self.wafer_name_list[0]
+
         # 測試訊息
-        self.test_meaasge_box.setPlainText(str(self.df_all_ma2.shape))
+        # self.test_meaasge_box.setPlainText(str(self.df_all_ma2.shape))
+
+    # 使用下拉式選單選wafer後，寫入參數內
+
+    @Slot()
+    def set_Wafer_Select(self, combo_box: QComboBox) -> None:
+        self.selected_wafer = combo_box.currentText()
+        self.test_meaasge_box.setPlainText(str(self.selected_wafer))
+
+    # 使用下拉式選單選繪圖項目後，寫入參數內
+    @Slot()
+    def set_Parameter_Select(self, combo_box: QComboBox) -> None:
+        self.select_draw_parameter = combo_box.currentText()
+        self.test_meaasge_box.setPlainText(str(self.select_draw_parameter))
+
+    # 繪製wafer mapping圖
+    def draw_Wafer_Mapping(self, all_wafer_data: pd.DataFrame, wafer: str, draw_item):
+
+        if self.selected_wafer:
+            # 取出指定wafer
+            df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
+            )
+            # 將df轉為二維
+            df_select_wafer_2d = df_select_wafer.pivot_table(
+                index='Y', columns='X', values=draw_item, fill_value=-200, observed=True)
+
+            # mask
+            wafer_2d_array = df_select_wafer_2d.to_numpy(copy=True)
+            wafer_masked = np.ma.masked_where(
+                wafer_2d_array == -200, wafer_2d_array)
+
+            plt.figure(1)
+            plt.imshow(wafer_masked, interpolation='none')
+            plt.colorbar()
+
+            plt.show()
+        else:
+            self.draw_before_read_file_message()
+
+    # TODO:圖檔標題為繪製項目
+    # TODO:視窗名稱為wafer ID
+    # TODO:滑過wafer mapping時顯示相關資訊
+
+    # 沒有讀檔就畫圖的警告
+    def draw_before_read_file_message(self):
+        msgBox = QMessageBox.warning(
+            self, '無法繪圖', '請先選擇並讀取ma2檔', QMessageBox.Ok, QMessageBox.Ok)
 
     # csv檔轉為dataframe
     def set_ma2_dataframe(self, ma2_list):
@@ -92,12 +157,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
         # 建立含有所有wafer資訊之df
         self.df_all_ma2 = pd.concat(self.df_ma2_list, ignore_index=True)
-
-        # 呼叫"將ma2檔檔名加入下拉式清單"
-        self.add_combobox_item(self.wafer_name_list)
-
-        # 呼叫"狀態列設定"
-        self.set_status_bar_text(self.df_all_ma2, self.wafer_name_list)
 
     # 取出文件最後的檔名
     def path_leaf(self, path):

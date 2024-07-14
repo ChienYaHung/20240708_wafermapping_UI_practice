@@ -61,6 +61,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     # csv檔轉為dataframe
     def set_ma2_dataframe(self, ma2_list):
 
+        self.wafer_name_list = []
+
         for ma2_path in ma2_list:
 
             # 讀檔
@@ -71,23 +73,31 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
             # 取出wafer名稱
             file_name = self.path_leaf(ma2_path)
-            self.wafer_id, a = file_name.split(".")
+            wafer_id, a = file_name.split(".")
 
             # 建立wafer name欄位
-            df_single_wafer['Wafer ID'] = self.wafer_id
+            df_single_wafer['Wafer ID'] = wafer_id
 
             # 加入list
             self.df_ma2_list.append(df_single_wafer)
+            self.wafer_name_list.append(wafer_id)
 
         # 建立含有所有wafer資訊之df
         self.df_all_ma2 = pd.concat(self.df_ma2_list, ignore_index=True)
+
+        # 呼叫"將ma2檔檔名加入下拉式清單"
+        self.add_combobox_item(self.wafer_name_list)
 
     # 取出文件最後的檔名
     def path_leaf(self, path):
         head, tail = ntpath.split(path)
         return tail or ntpath.basename(head)
 
-    # TODO:將ma2檔檔名加入下拉式清單
+    # 將ma2檔檔名加入下拉式清單
+    def add_combobox_item(self, wafer_list):
+        self.wafer_id_box.clear()
+        self.wafer_id_box.addItems(wafer_list)
+
     # TODO:狀態列顯示讀取檔案數量
 
 

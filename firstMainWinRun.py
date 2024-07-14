@@ -99,8 +99,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.test_meaasge_box.setPlainText(str(self.select_draw_parameter))
 
     # 繪製wafer mapping圖
+    @Slot()
     def draw_Wafer_Mapping(self, all_wafer_data: pd.DataFrame, wafer: str, draw_item):
 
+        # 判斷是否有讀檔
+        # selected_wafer是否有被賦值
         if self.selected_wafer:
             # 取出指定wafer
             df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
@@ -109,16 +112,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             df_select_wafer_2d = df_select_wafer.pivot_table(
                 index='Y', columns='X', values=draw_item, fill_value=-200, observed=True)
 
-            # mask
+            # mask，標示t-key
             wafer_2d_array = df_select_wafer_2d.to_numpy(copy=True)
             wafer_masked = np.ma.masked_where(
                 wafer_2d_array == -200, wafer_2d_array)
 
+            # 繪圖
             plt.figure(1)
             plt.imshow(wafer_masked, interpolation='none')
             plt.colorbar()
 
             plt.show()
+
+        # 若沒有讀檔就繪圖，顯示錯誤訊息
         else:
             self.draw_before_read_file_message()
 

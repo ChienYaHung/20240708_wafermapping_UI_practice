@@ -155,12 +155,23 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_5)
 
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.read_data_button = QPushButton(self.verticalLayoutWidget_4)
         self.read_data_button.setObjectName(u"read_data_button")
         self.read_data_button.setMinimumSize(QSize(100, 0))
         self.read_data_button.setFont(font)
 
-        self.horizontalLayout_3.addWidget(self.read_data_button)
+        self.verticalLayout_5.addWidget(self.read_data_button)
+
+        self.mapping_button = QPushButton(self.verticalLayoutWidget_4)
+        self.mapping_button.setObjectName(u"mapping_button")
+        self.mapping_button.setFont(font)
+
+        self.verticalLayout_5.addWidget(self.mapping_button)
+
+
+        self.horizontalLayout_3.addLayout(self.verticalLayout_5)
 
         self.horizontalSpacer_6 = QSpacerItem(80, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
@@ -253,9 +264,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addLayout(self.verticalLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusBar = QStatusBar(MainWindow)
-        self.statusBar.setObjectName(u"statusBar")
-        MainWindow.setStatusBar(self.statusBar)
+        self.wafer_count_bar = QStatusBar(MainWindow)
+        self.wafer_count_bar.setObjectName(u"wafer_count_bar")
+        MainWindow.setStatusBar(self.wafer_count_bar)
 
         self.retranslateUi(MainWindow)
 
@@ -282,6 +293,7 @@ class Ui_MainWindow(object):
         self.view_item_box.setItemText(8, QCoreApplication.translate("MainWindow", u"Vf0", None))
 
         self.read_data_button.setText(QCoreApplication.translate("MainWindow", u"\u8b80\u53d6\u6a94\u6848", None))
+        self.mapping_button.setText(QCoreApplication.translate("MainWindow", u"\u7e6a\u88fd\u5716\u50cf", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Data table", None))
         ___qtablewidgetitem = self.view_data_table.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u7247\u865f", None));

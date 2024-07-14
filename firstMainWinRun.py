@@ -33,6 +33,14 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # 初始參數
+        # 設定狀態列
+        self.read_wafer_status_label = QLabel('尚未讀取任何檔案')
+        self.chip_count_status_label = QLabel('Chip數：0')
+        self.statusBar_chip_count = QStatusBar()
+        # self.wafer_count_bar.setMinimumWidth(80)
+        self.wafer_count_bar.addWidget(self.statusBar_chip_count)
+        self.wafer_count_bar.addWidget(self.read_wafer_status_label)
+        self.statusBar_chip_count.addWidget(self.chip_count_status_label)
 
         # 上下限只能打數字
         self.min_spec_input.setValidator(QDoubleValidator(-9999, 9999, 2))
@@ -88,6 +96,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 呼叫"將ma2檔檔名加入下拉式清單"
         self.add_combobox_item(self.wafer_name_list)
 
+        # 呼叫"狀態列設定"
+        self.set_status_bar_text(self.df_all_ma2, self.wafer_name_list)
+
     # 取出文件最後的檔名
     def path_leaf(self, path):
         head, tail = ntpath.split(path)
@@ -98,7 +109,15 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.wafer_id_box.clear()
         self.wafer_id_box.addItems(wafer_list)
 
-    # TODO:狀態列顯示讀取檔案數量
+    # 狀態列顯示讀取檔案數量
+    def set_status_bar_text(self, df: pd.DataFrame, wafer_list: list):
+
+        wafer_count = len(wafer_list)
+        chip_count = df.shape[0]
+
+        # 設定狀態列內容
+        self.read_wafer_status_label.setText(f'讀取Wafer數量:{wafer_count}')
+        self.chip_count_status_label.setText(f'讀取Chip數量:{chip_count}')
 
 
 if __name__ == "__main__":

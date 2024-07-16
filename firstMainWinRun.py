@@ -67,23 +67,26 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 取得讀檔路徑
         read_ma2_list, _ = QFileDialog.getOpenFileNames(self, caption='開啟舊檔', dir=os.path.expanduser("~/Desktop"),
                                                         filter="CSV UTF-8(逗號分隔)(*.csv)")
-        # 初始化ma2 list
-        self.df_ma2_list = []
+        if read_ma2_list:  # 如果有選擇檔案
+            # 測試訊息
+            # self.test_meaasge_box.setPlainText(str(read_ma2_list))
 
-        # 建立所有ma2的dataframe
-        self.set_ma2_dataframe(read_ma2_list)
+            # 初始化ma2 list
+            self.df_ma2_list = []
 
-        # 呼叫"將ma2檔檔名加入下拉式清單"
-        self.add_combobox_item(self.wafer_name_list)
+            # 建立所有ma2的dataframe
+            self.set_ma2_dataframe(read_ma2_list)
 
-        # 呼叫"狀態列設定"
-        self.set_status_bar_text(self.df_all_ma2, self.wafer_name_list)
+            # 呼叫"將ma2檔檔名加入下拉式清單"
+            self.add_combobox_item(self.wafer_name_list)
 
-        # 初始參數設定
-        self.selected_wafer = self.wafer_name_list[0]
+            # 呼叫"狀態列設定"
+            self.set_status_bar_text(self.df_all_ma2, self.wafer_name_list)
 
-        # 測試訊息
-        # self.test_meaasge_box.setPlainText(str(self.df_all_ma2.shape))
+            # 初始參數設定
+            self.selected_wafer = self.wafer_name_list[0]
+        else:
+            self.no_read_file_message()
 
     # 使用下拉式選單選wafer後，寫入參數內
 
@@ -118,7 +121,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 wafer_2d_array == -200, wafer_2d_array)
 
             # 繪圖
-            plt.figure(1)
+            fig = plt.figure(1)
+            ax = fig.add_subplot(111)
+            fig.suptitle(f'{wafer} {draw_item} mapping')
             plt.imshow(wafer_masked, interpolation='none')
             plt.colorbar()
 
@@ -128,14 +133,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.draw_before_read_file_message()
 
-    # TODO:圖檔標題為繪製項目
-    # TODO:視窗名稱為wafer ID
+    # TODO:設定圖表上下限
     # TODO:滑過wafer mapping時顯示相關資訊
+    # TODO:Colorbar改成藍到紅
 
     # 沒有讀檔就畫圖的警告
     def draw_before_read_file_message(self):
-        msgBox = QMessageBox.warning(
+        msgBox = QMessageBox.information(
             self, '無法繪圖', '請先選擇並讀取ma2檔', QMessageBox.Ok, QMessageBox.Ok)
+
+        # 沒有讀檔就畫圖的警告
+    def no_read_file_message(self):
+        msgBox = QMessageBox.question(
+            self, '沒有讀檔', '你怎麼叫出介面又不選檔案？', QMessageBox.Ok, QMessageBox.Ok)
 
     # csv檔轉為dataframe
     def set_ma2_dataframe(self, ma2_list):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from mainUI import *
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
 from PySide6.QtWidgets import *
@@ -118,7 +119,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             # 判斷上下限是否設定完全
             if (len(self.img_max_value) == 0 and len(self.img_min_value) != 0) or (
                     len(self.img_max_value) != 0 and len(self.img_min_value) == 0):
+
                 self.only_single_limit_message()  # 上下限設定不完全則直接退出
+
             else:
                 self.test_meaasge_box.setPlainText(
                     f'最小值: {self.img_min_value}\n最大值: {self.img_max_value}\n最小值格式: {type(self.img_min_value)}\n最大值格式: {type(self.img_max_value)}')
@@ -126,6 +129,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 # 取出指定wafer
                 df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
                 )
+
+                # 設定該wafer的最大/最小之XY座標
+                x_range = list(df_select_wafer['X'].cat.categories)
+                y_range = list(df_select_wafer['Y'].cat.categories)
+
                 # 將df轉為二維
                 df_select_wafer_2d = df_select_wafer.pivot_table(
                     index='Y', columns='X', values=draw_item, fill_value=-200, observed=True)
@@ -136,10 +144,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                     wafer_2d_array == -200, wafer_2d_array)
 
                 # 繪圖
-                fig = plt.figure(1)  # 建立figure
+                fig = plt.figure(figsize=(12, 9))  # 建立figure
                 ax = fig.add_subplot(111)  # 建立axes
-                fig.suptitle(f'{wafer} {draw_item} mapping')
-                im = plt.imshow(wafer_masked, interpolation='none')
+                fig.suptitle(f'{wafer} {draw_item} mapping')  # 設定圖檔標題
+                im = plt.pcolormesh(
+                    x_range, y_range, wafer_masked, cmap='jet', shading='nearest', edgecolors='black')  # 圖像繪製
+                # ax.tick_params(axis='both', which='both',
+                #                bottom=False, top=False, labelbottom=False)
 
                 # 將上下限加入圖表內
                 if self.img_max_value and self.img_min_value:
@@ -151,6 +162,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                 vmax=self.img_max_value)
 
                 plt.colorbar()
+                plt.axis('off')
 
                 plt.show()
 
@@ -159,7 +171,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.draw_before_read_file_message()
 
     # TODO:滑過wafer mapping時顯示相關資訊
-    # TODO:Colorbar改成藍到紅
 
     # 沒有讀檔就畫圖的警告
     def draw_before_read_file_message(self):

@@ -34,6 +34,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
         # 初始參數
         self.selected_wafer = None
+        # self.img_max_value = None
+        # self.img_min_value = None
         self.df_all_ma2 = pd.DataFrame()
         self.select_draw_parameter = 'Ir1'
 
@@ -89,17 +91,17 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.no_read_file_message()
 
     # 使用下拉式選單選wafer後，寫入參數內
-
     @Slot()
     def set_Wafer_Select(self, combo_box: QComboBox) -> None:
         self.selected_wafer = combo_box.currentText()
-        self.test_meaasge_box.setPlainText(str(self.selected_wafer))
+        # self.test_meaasge_box.setPlainText(str(self.selected_wafer))  # 測試訊息
 
     # 使用下拉式選單選繪圖項目後，寫入參數內
     @Slot()
     def set_Parameter_Select(self, combo_box: QComboBox) -> None:
         self.select_draw_parameter = combo_box.currentText()
-        self.test_meaasge_box.setPlainText(str(self.select_draw_parameter))
+        # self.test_meaasge_box.setPlainText(
+        #     str(self.select_draw_parameter))  # 測試訊息
 
     # 繪製wafer mapping圖
     @Slot()
@@ -108,44 +110,71 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 判斷是否有讀檔
         # selected_wafer是否有被賦值
         if self.selected_wafer:
-            # 取出指定wafer
-            df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
-            )
-            # 將df轉為二維
-            df_select_wafer_2d = df_select_wafer.pivot_table(
-                index='Y', columns='X', values=draw_item, fill_value=-200, observed=True)
 
-            # mask，標示t-key
-            wafer_2d_array = df_select_wafer_2d.to_numpy(copy=True)
-            wafer_masked = np.ma.masked_where(
-                wafer_2d_array == -200, wafer_2d_array)
+            # 設定最大/最小值
+            self.img_max_value = self.max_spec_input.text()
+            self.img_min_value = self.min_spec_input.text()
 
-            # 繪圖
-            fig = plt.figure(1)
-            ax = fig.add_subplot(111)
-            fig.suptitle(f'{wafer} {draw_item} mapping')
-            plt.imshow(wafer_masked, interpolation='none')
-            plt.colorbar()
+            # 判斷上下限是否設定完全
+            if (len(self.img_max_value) == 0 and len(self.img_min_value) != 0) or (
+                    len(self.img_max_value) != 0 and len(self.img_min_value) == 0):
+                self.only_single_limit_message()  # 上下限設定不完全則直接退出
+            else:
+                self.test_meaasge_box.setPlainText(
+                    f'最小值: {self.img_min_value}\n最大值: {self.img_max_value}\n最小值格式: {type(self.img_min_value)}\n最大值格式: {type(self.img_max_value)}')
 
-            plt.show()
+                # 取出指定wafer
+                df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
+                )
+                # 將df轉為二維
+                df_select_wafer_2d = df_select_wafer.pivot_table(
+                    index='Y', columns='X', values=draw_item, fill_value=-200, observed=True)
+
+                # mask，標示t-key
+                wafer_2d_array = df_select_wafer_2d.to_numpy(copy=True)
+                wafer_masked = np.ma.masked_where(
+                    wafer_2d_array == -200, wafer_2d_array)
+
+                # 繪圖
+                fig = plt.figure(1)  # 建立figure
+                ax = fig.add_subplot(111)  # 建立axes
+                fig.suptitle(f'{wafer} {draw_item} mapping')
+                im = plt.imshow(wafer_masked, interpolation='none')
+
+                # 將上下限加入圖表內
+                if self.img_max_value and self.img_min_value:
+
+                    self.img_max_value = float(self.max_spec_input.text())
+                    self.img_min_value = float(self.min_spec_input.text())
+
+                    im.set_clim(vmin=self.img_min_value,
+                                vmax=self.img_max_value)
+
+                plt.colorbar()
+
+                plt.show()
 
         # 若沒有讀檔就繪圖，顯示錯誤訊息
         else:
             self.draw_before_read_file_message()
 
-    # TODO:設定圖表上下限
     # TODO:滑過wafer mapping時顯示相關資訊
     # TODO:Colorbar改成藍到紅
 
     # 沒有讀檔就畫圖的警告
     def draw_before_read_file_message(self):
         msgBox = QMessageBox.information(
-            self, '無法繪圖', '請先選擇並讀取ma2檔', QMessageBox.Ok, QMessageBox.Ok)
+            self, '無法繪圖', '請先讀取並選擇ma2檔', QMessageBox.Ok, QMessageBox.Ok)
 
-        # 沒有讀檔就畫圖的警告
+    # 開啟讀檔介面後沒讀檔的警告
     def no_read_file_message(self):
         msgBox = QMessageBox.question(
             self, '沒有讀檔', '你怎麼叫出介面又不選檔案？', QMessageBox.Ok, QMessageBox.Ok)
+
+    # 只設定上限或下限的警告
+    def only_single_limit_message(self):
+        msgBox = QMessageBox.warning(
+            self, '上下限設定錯誤', '只有設定上限或下限', QMessageBox.Ok, QMessageBox.Ok)
 
     # csv檔轉為dataframe
     def set_ma2_dataframe(self, ma2_list):

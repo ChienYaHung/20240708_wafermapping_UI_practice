@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from mainUI import *
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.backend_bases import *
 import pandas as pd
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
@@ -123,12 +123,15 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.only_single_limit_message()  # 上下限設定不完全則直接退出
 
             else:
-                self.test_meaasge_box.setPlainText(
-                    f'最小值: {self.img_min_value}\n最大值: {self.img_max_value}\n最小值格式: {type(self.img_min_value)}\n最大值格式: {type(self.img_max_value)}')
+                # self.test_meaasge_box.setPlainText(
+                #     f'最小值: {self.img_min_value}\n最大值: {self.img_max_value}\n最小值格式: {type(self.img_min_value)}\n最大值格式: {type(self.img_max_value)}')
 
                 # 取出指定wafer
                 df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
                 )
+
+                # 設定index
+                df_select_wafer.set_index('XY index')
 
                 # 設定該wafer的最大/最小之XY座標
                 x_range = list(df_select_wafer['X'].cat.categories)
@@ -162,7 +165,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                                 vmax=self.img_max_value)
 
                 plt.colorbar()
-                plt.axis('off')
+                binding_id = plt.connect(
+                    'motion_notify_event', self.mouse_on_move)  # 設定滑鼠滑動與function的connection
+                # plt.axis('off')
 
                 plt.show()
 
@@ -171,6 +176,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             self.draw_before_read_file_message()
 
     # TODO:滑過wafer mapping時顯示相關資訊
+    # TODO:按下wafer mapping圖面時，擷取該chip資訊
 
     # 沒有讀檔就畫圖的警告
     def draw_before_read_file_message(self):
@@ -198,7 +204,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             df_single_wafer = pd.read_csv(ma2_path, header=7, index_col=False,
                                           usecols=['SN', 'Vf1', 'Vf2', 'Vr1', 'Ir1', 'Rs',
                                                    'Iv2', 'Wd2', 'Wp2', 'Iv3', 'X', 'Y', 'Vf0'],
-                                          dtype={'SN': 'category', 'X': 'category', 'Y': 'category'})
+                                          dtype={'SN': 'category'})
 
             # 取出wafer名稱
             file_name = self.path_leaf(ma2_path)
@@ -213,6 +219,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
         # 建立含有所有wafer資訊之df
         self.df_all_ma2 = pd.concat(self.df_ma2_list, ignore_index=True)
+
+        # 建立唯一的xy軸索引
+        self.df_all_ma2['XY index'] = self.df_all_ma2['X'].apply(
+            lambda x: 'X' + str(x)) + self.df_all_ma2['Y'].apply(lambda y: 'Y' + str(y))
+
+        # 將X/Y設為category
+        self.df_all_ma2['X'] = self.df_all_ma2['X'].astype(dtype='category')
+        self.df_all_ma2['Y'] = self.df_all_ma2['Y'].astype(dtype='category')
+        self.df_all_ma2['XY index'] = self.df_all_ma2['XY index'].astype(
+            dtype='category')
 
     # 取出文件最後的檔名
     def path_leaf(self, path):
@@ -233,6 +249,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 設定狀態列內容
         self.read_wafer_status_label.setText(f'讀取Wafer數量:{wafer_count}')
         self.chip_count_status_label.setText(f'讀取Chip數量:{chip_count}')
+
+    # 滑動滑鼠的motion
+    def mouse_on_move(self, event: MouseEvent):
+        if event.inaxes:
+            self.x_cord_of_mouse = int(np.round(event.xdata, 0))
+            self.y_cord_of_mouse = int(np.round(event.ydata, 0))
+            self.xy_index_of_mouse = f'X{
+                self.x_cord_of_mouse}Y{self.y_cord_of_mouse}'
+            self.test_meaasge_box.setPlainText(
+                f'X座標: {self.x_cord_of_mouse}\nY座標: {self.y_cord_of_mouse}\n{self.xy_index_of_mouse}')
 
 
 if __name__ == "__main__":

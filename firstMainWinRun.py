@@ -37,8 +37,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.selected_wafer = None
         # self.img_max_value = None
         # self.img_min_value = None
-        self.df_all_ma2 = pd.DataFrame()
-        self.select_draw_parameter = 'Ir1'
+        self.df_all_ma2 = pd.DataFrame()  # 空的dataframe, 拿來裝所有wafer的mapping資訊
+        self.select_draw_parameter = 'Ir1'  # 先設定需繪圖項目，預設為Ir1
+        self.table_item = ['Wafer ID', 'X', 'Y', 'Vf1',
+                           'Vf2', 'Vr1', 'Ir1', 'Rs', 'Iv2', 'Wd2', 'Vf0']  # 表格內的對應項目
 
         # 設定狀態列
         self.read_wafer_status_label = QLabel('尚未讀取任何檔案')
@@ -127,18 +129,21 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 #     f'最小值: {self.img_min_value}\n最大值: {self.img_max_value}\n最小值格式: {type(self.img_min_value)}\n最大值格式: {type(self.img_max_value)}')
 
                 # 取出指定wafer
-                df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
+                self.df_select_wafer = all_wafer_data[all_wafer_data['Wafer ID'] == wafer].copy(
                 )
 
                 # 設定index
-                df_select_wafer.set_index('XY index')
+                self.df_select_wafer.set_index(keys='XY index', inplace=True)
+
+                # 測試
+                self.df_select_wafer.to_clipboard()
 
                 # 設定該wafer的最大/最小之XY座標
-                x_range = list(df_select_wafer['X'].cat.categories)
-                y_range = list(df_select_wafer['Y'].cat.categories)
+                x_range = list(self.df_select_wafer['X'].cat.categories)
+                y_range = list(self.df_select_wafer['Y'].cat.categories)
 
                 # 將df轉為二維
-                df_select_wafer_2d = df_select_wafer.pivot_table(
+                df_select_wafer_2d = self.df_select_wafer.pivot_table(
                     index='Y', columns='X', values=draw_item, fill_value=-200, observed=True)
 
                 # mask，標示t-key
@@ -175,7 +180,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.draw_before_read_file_message()
 
-    # TODO:滑過wafer mapping時顯示相關資訊
     # TODO:按下wafer mapping圖面時，擷取該chip資訊
 
     # 沒有讀檔就畫圖的警告
@@ -230,6 +234,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.df_all_ma2['XY index'] = self.df_all_ma2['XY index'].astype(
             dtype='category')
 
+        # 測試
+        # self.df_all_ma2.to_clipboard()
+
     # 取出文件最後的檔名
     def path_leaf(self, path):
         head, tail = ntpath.split(path)
@@ -251,14 +258,42 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.chip_count_status_label.setText(f'讀取Chip數量:{chip_count}')
 
     # 滑動滑鼠的motion
+    # 將df內對應資訊填入表格內
     def mouse_on_move(self, event: MouseEvent):
         if event.inaxes:
+
+            # 回傳鼠標所在地的XY座標
             self.x_cord_of_mouse = int(np.round(event.xdata, 0))
             self.y_cord_of_mouse = int(np.round(event.ydata, 0))
+
+            # 設定XY index
+            # 指向df內的資訊
             self.xy_index_of_mouse = f'X{
                 self.x_cord_of_mouse}Y{self.y_cord_of_mouse}'
+
+            # 找出index的df內對應資訊
+            for i, item_name in enumerate(self.table_item):
+                try:  # 若index有對應資訊
+
+                    # 找出df內對應項目
+                    _item_of_mouse = self.df_select_wafer.loc[self.xy_index_of_mouse, item_name]
+
+                    # 需轉成Item格式
+                    _item_of_table = QTableWidgetItem(f'{_item_of_mouse}')
+
+                    # 寫入表格
+                    self.view_data_table.setItem(0, i, _item_of_table)
+
+                except KeyError:  # 若index沒有對應資訊
+
+                    # 啥也不做，也不更新資料
+                    pass
+
+            # 測試訊息
             self.test_meaasge_box.setPlainText(
                 f'X座標: {self.x_cord_of_mouse}\nY座標: {self.y_cord_of_mouse}\n{self.xy_index_of_mouse}')
+
+    # TODO:點選chip後可以儲存chip資訊
 
 
 if __name__ == "__main__":

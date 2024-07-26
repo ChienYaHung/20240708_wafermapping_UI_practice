@@ -6,7 +6,7 @@ from matplotlib.backend_bases import *
 import pandas as pd
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
-from PySide6.QtUiTools import QUiLoader
+# from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import *
 import sys
 import os
@@ -37,14 +37,16 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.selected_wafer = None
         # self.img_max_value = None
         # self.img_min_value = None
-        self.df_all_ma2 = pd.DataFrame()  # 空的dataframe, 拿來裝所有wafer的mapping資訊
         self.select_draw_parameter = 'Ir1'  # 先設定需繪圖項目，預設為Ir1
         self.table_item = ['Wafer ID', 'X', 'Y', 'Vf1',
                            'Vf2', 'Vr1', 'Ir1', 'Rs', 'Iv2', 'Wd2', 'Vf0']  # 表格內的對應項目
+        # self.df_all_ma2 = pd.DataFrame()  # 空的dataframe, 拿來裝所有wafer的mapping資訊
+        self.df_specific_ma2 = pd.DataFrame(
+            columns=self.table_item)  # 空的dataframe, 拿來裝被選取的chip資訊
 
         # 設定狀態列
-        self.read_wafer_status_label = QLabel('尚未讀取任何檔案')
-        self.chip_count_status_label = QLabel('Chip數：0')
+        self.read_wafer_status_label = QLabel('尚未讀取任何Chip')
+        self.chip_count_status_label = QLabel('尚未擷取任何檔案')
         self.statusBar_chip_count = QStatusBar()
         # self.wafer_count_bar.setMinimumWidth(80)
         self.wafer_count_bar.addWidget(self.statusBar_chip_count)
@@ -136,7 +138,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 self.df_select_wafer.set_index(keys='XY index', inplace=True)
 
                 # 測試
-                self.df_select_wafer.to_clipboard()
+                # self.df_select_wafer.to_clipboard()
 
                 # 設定該wafer的最大/最小之XY座標
                 x_range = list(self.df_select_wafer['X'].cat.categories)
@@ -172,6 +174,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 plt.colorbar()
                 binding_id = plt.connect(
                     'motion_notify_event', self.mouse_on_move)  # 設定滑鼠滑動與function的connection
+                plt.connect('button_press_event', self.mouse_on_click)
                 # plt.axis('off')
 
                 plt.show()
@@ -179,8 +182,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # 若沒有讀檔就繪圖，顯示錯誤訊息
         else:
             self.draw_before_read_file_message()
-
-    # TODO:按下wafer mapping圖面時，擷取該chip資訊
 
     # 沒有讀檔就畫圖的警告
     def draw_before_read_file_message(self):
@@ -254,46 +255,145 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         chip_count = df.shape[0]
 
         # 設定狀態列內容
-        self.read_wafer_status_label.setText(f'讀取Wafer數量:{wafer_count}')
-        self.chip_count_status_label.setText(f'讀取Chip數量:{chip_count}')
+        self.chip_count_status_label.setText(
+            f'讀取Wafer數量:{wafer_count}  讀取Chip數量:{chip_count}')
+        # self.chip_count_status_label.setText(f'讀取Chip數量:{chip_count}')
 
     # 滑動滑鼠的motion
     # 將df內對應資訊填入表格內
     def mouse_on_move(self, event: MouseEvent):
         if event.inaxes:
 
-            # 回傳鼠標所在地的XY座標
-            self.x_cord_of_mouse = int(np.round(event.xdata, 0))
-            self.y_cord_of_mouse = int(np.round(event.ydata, 0))
-
-            # 設定XY index
-            # 指向df內的資訊
-            self.xy_index_of_mouse = f'X{
-                self.x_cord_of_mouse}Y{self.y_cord_of_mouse}'
+            xy_index_of_mouse = self.get_mouse_cord(event)  # 將鼠標位置轉換為index
 
             # 找出index的df內對應資訊
             for i, item_name in enumerate(self.table_item):
-                try:  # 若index有對應資訊
+
+                try:
+                    # 若index有對應資訊
 
                     # 找出df內對應項目
-                    _item_of_mouse = self.df_select_wafer.loc[self.xy_index_of_mouse, item_name]
-
+                    _item_of_mouse = self.df_select_wafer.loc[xy_index_of_mouse, item_name]
                     # 需轉成Item格式
-                    _item_of_table = QTableWidgetItem(f'{_item_of_mouse}')
-
+                    _item_of_view_table = QTableWidgetItem(f'{_item_of_mouse}')
+                    # 設定table item為read-only
+                    _item_of_view_table.setFlags(
+                        _item_of_view_table.flags() & ~Qt.ItemFlag.ItemIsEditable)
                     # 寫入表格
-                    self.view_data_table.setItem(0, i, _item_of_table)
+                    self.view_data_table.setItem(0, i, _item_of_view_table)
 
-                except KeyError:  # 若index沒有對應資訊
-
+                except KeyError:
+                    # 若index沒有對應資訊
                     # 啥也不做，也不更新資料
                     pass
 
-            # 測試訊息
-            self.test_meaasge_box.setPlainText(
-                f'X座標: {self.x_cord_of_mouse}\nY座標: {self.y_cord_of_mouse}\n{self.xy_index_of_mouse}')
-
     # TODO:點選chip後可以儲存chip資訊
+    def mouse_on_click(self, event: MouseEvent):
+
+        # 當按下左鍵
+        # 儲存所在地chip資訊
+        if event.button is MouseButton.LEFT:
+
+            xy_index_of_mouse = self.get_mouse_cord(event)  # 將鼠標位置轉換為index
+
+            try:
+
+                # 擷取chip資訊，順驗驗證index是否有對應項目
+                _series_of_mouse = self.df_select_wafer.loc[xy_index_of_mouse]
+
+                '''
+                若index有對應資訊
+                '''
+
+                # 表格多插入一列
+                row_count = self.specific_chip_table.rowCount()
+                self.specific_chip_table.insertRow(row_count)
+
+                for i, item_name in enumerate(self.table_item):
+
+                    # 找出df內對應項目
+                    _item_of_mouse = self.df_select_wafer.loc[xy_index_of_mouse, item_name]
+
+                    '''
+                        此處處理UI表格部分
+                        按下左鍵後表格會寫入chip資訊
+                        '''
+
+                    # 需轉成Item格式
+                    _item_of_specific_table = QTableWidgetItem(
+                        f'{_item_of_mouse}')
+                    # 設定table item為read-only
+                    _item_of_specific_table.setFlags(
+                        _item_of_specific_table.flags() & ~Qt.ItemFlag.ItemIsEditable)
+                    # 寫入表格
+                    self.specific_chip_table.setItem(
+                        row_count, i, _item_of_specific_table)
+
+                '''
+                    此處處理df表格部分
+                    按下左鍵後df會寫入chip資訊
+                    (不在迴圈內)
+                '''
+                self.df_specific_ma2.loc[len(
+                    self.df_specific_ma2)] = _series_of_mouse
+
+                # 測試用，檢查df
+                self.df_specific_ma2.to_clipboard()
+
+                # 顯示"已儲存chip相關資訊"
+                self.read_wafer_status_label.setText(
+                    f'已擷取Chip數量:{len(self.df_specific_ma2)}')
+
+            except KeyError:
+                '''
+                若index沒有對應資訊
+                '''
+                # 啥也不做，也不更新資料
+                pass
+
+        # 當在圖面按下右鍵
+        # 刪除最後一筆chip資訊
+        elif event.button is MouseButton.RIGHT:
+
+            '''
+            此處處理UI表格部分
+            按下右鍵後會刪除UI最後一列資訊
+            '''
+            row_count_2 = self.specific_chip_table.rowCount()-1
+            self.specific_chip_table.removeRow(row_count_2)
+
+            '''
+            此處處理df表格部分
+            按下右鍵後會刪除df最後一列資訊
+            '''
+            self.df_specific_ma2 = self.df_specific_ma2[:-1]
+
+            # 顯示"已儲存chip相關資訊"
+            self.read_wafer_status_label.setText(
+                f'已擷取Chip數量:{len(self.df_specific_ma2)}')
+
+            # 測試用，檢查df
+            self.df_specific_ma2.to_clipboard()
+
+    # 得到鼠標現在座標
+    def get_mouse_cord(self, event: MouseEvent):
+
+        # 回傳鼠標所在地的XY座標
+        x_cord_of_mouse = int(np.round(event.xdata, 0))
+        y_cord_of_mouse = int(np.round(event.ydata, 0))
+
+        # 設定XY index
+        # 指向df內的資訊
+        xy_index_of_mouse = f'X{x_cord_of_mouse}Y{y_cord_of_mouse}'
+
+        # 測試訊息
+        # self.test_meaasge_box.setPlainText(f'X座標: {x_cord_of_mouse}\nY座標:
+        #                                    {y_cord_of_mouse}\n{xy_index_of_mouse}')
+
+        return xy_index_of_mouse
+
+    # TODO:儲存擷取chip相關資訊
+    # TODO:將mapping圖放入UI內
 
 
 if __name__ == "__main__":

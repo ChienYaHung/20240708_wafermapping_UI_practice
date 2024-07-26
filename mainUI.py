@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainUI.ui'
+# Form generated from reading UI file 'mainUI.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.0
+# Created by: Qt User Interface Compiler version 6.6.0
 ##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
+# WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QMainWindow,
-    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
-    QTableWidget, QTableWidgetItem, QTextEdit, QVBoxLayout,
-    QWidget)
+                               QHeaderView, QLabel, QLineEdit, QMainWindow,
+                               QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+                               QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -65,10 +65,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.label_8)
 
-
         self.horizontalLayout_3.addLayout(self.verticalLayout_3)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer = QSpacerItem(
+            20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.horizontalLayout_3.addItem(self.verticalSpacer)
 
@@ -81,10 +81,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.wafer_id_box)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(
+            40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_3)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
 
@@ -104,10 +104,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.view_item_box)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(
+            40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_5)
 
@@ -119,10 +119,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.max_spec_input)
 
-        self.horizontalSpacer = QSpacerItem(300, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(
+            300, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
-
 
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
@@ -134,13 +134,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.min_spec_input)
 
-        self.horizontalSpacer_2 = QSpacerItem(300, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(
+            300, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
-
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
 
@@ -151,7 +150,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.line_2)
 
-        self.horizontalSpacer_5 = QSpacerItem(80, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.horizontalSpacer_5 = QSpacerItem(
+            80, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_5)
 
@@ -170,17 +170,23 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.mapping_button)
 
+        self.save_chip_info_button = QPushButton(self.verticalLayoutWidget_4)
+        self.save_chip_info_button.setObjectName(u"save_chip_info_button")
+        self.save_chip_info_button.setFont(font)
+
+        self.verticalLayout_5.addWidget(self.save_chip_info_button)
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_5)
 
-        self.horizontalSpacer_6 = QSpacerItem(80, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(
+            80, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_6)
 
-
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 30, QSizePolicy.Minimum, QSizePolicy.Preferred)
+        self.verticalSpacer_2 = QSpacerItem(
+            20, 30, QSizePolicy.Minimum, QSizePolicy.Preferred)
 
         self.verticalLayout_4.addItem(self.verticalSpacer_2)
 
@@ -193,7 +199,8 @@ class Ui_MainWindow(object):
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalSpacer_4 = QSpacerItem(20, 30, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_4 = QSpacerItem(
+            20, 30, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer_4)
 
@@ -246,20 +253,68 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.view_data_table)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_3 = QSpacerItem(
+            20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer_3)
 
         self.label_2 = QLabel(self.verticalLayoutWidget_4)
         self.label_2.setObjectName(u"label_2")
+        self.label_2.setFont(font)
 
         self.verticalLayout.addWidget(self.label_2)
 
-        self.test_meaasge_box = QTextEdit(self.verticalLayoutWidget_4)
-        self.test_meaasge_box.setObjectName(u"test_meaasge_box")
+        self.specific_chip_table = QTableWidget(self.verticalLayoutWidget_4)
+        if (self.specific_chip_table.columnCount() < 11):
+            self.specific_chip_table.setColumnCount(11)
+        __qtablewidgetitem11 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            0, __qtablewidgetitem11)
+        __qtablewidgetitem12 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            1, __qtablewidgetitem12)
+        __qtablewidgetitem13 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            2, __qtablewidgetitem13)
+        __qtablewidgetitem14 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            3, __qtablewidgetitem14)
+        __qtablewidgetitem15 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            4, __qtablewidgetitem15)
+        __qtablewidgetitem16 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            5, __qtablewidgetitem16)
+        __qtablewidgetitem17 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            6, __qtablewidgetitem17)
+        __qtablewidgetitem18 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            7, __qtablewidgetitem18)
+        __qtablewidgetitem19 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            8, __qtablewidgetitem19)
+        __qtablewidgetitem20 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            9, __qtablewidgetitem20)
+        __qtablewidgetitem21 = QTableWidgetItem()
+        self.specific_chip_table.setHorizontalHeaderItem(
+            10, __qtablewidgetitem21)
+        # if (self.specific_chip_table.rowCount() < 1):
+        #     self.specific_chip_table.setRowCount(1)
+        self.specific_chip_table.setObjectName(u"specific_chip_table")
+        self.specific_chip_table.setMinimumSize(QSize(0, 40))
+        self.specific_chip_table.setFocusPolicy(Qt.NoFocus)
+        self.specific_chip_table.setInputMethodHints(Qt.ImhNone)
+        self.specific_chip_table.setAutoScroll(True)
+        self.specific_chip_table.setRowCount(0)
+        self.specific_chip_table.horizontalHeader().setDefaultSectionSize(80)
+        self.specific_chip_table.horizontalHeader().setHighlightSections(False)
+        self.specific_chip_table.verticalHeader().setVisible(False)
+        self.specific_chip_table.verticalHeader().setCascadingSectionResizes(False)
+        self.specific_chip_table.verticalHeader().setHighlightSections(False)
 
-        self.verticalLayout.addWidget(self.test_meaasge_box)
-
+        self.verticalLayout.addWidget(self.specific_chip_table)
 
         self.verticalLayout_4.addLayout(self.verticalLayout)
 
@@ -272,51 +327,124 @@ class Ui_MainWindow(object):
 
         self.view_item_box.setCurrentIndex(3)
 
-
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Wafer mapping", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Wafer ID:", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u7e6a\u5716\u9805\u76ee\uff1a", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Color Bar \u4e0a\u9650\uff1a", None))
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Color Bar \u4e0b\u9650\uff1a", None))
-        self.view_item_box.setItemText(0, QCoreApplication.translate("MainWindow", u"Vf1", None))
-        self.view_item_box.setItemText(1, QCoreApplication.translate("MainWindow", u"Vf2", None))
-        self.view_item_box.setItemText(2, QCoreApplication.translate("MainWindow", u"Vr1", None))
-        self.view_item_box.setItemText(3, QCoreApplication.translate("MainWindow", u"Ir1", None))
-        self.view_item_box.setItemText(4, QCoreApplication.translate("MainWindow", u"Rs", None))
-        self.view_item_box.setItemText(5, QCoreApplication.translate("MainWindow", u"Iv2", None))
-        self.view_item_box.setItemText(6, QCoreApplication.translate("MainWindow", u"Wd2", None))
-        self.view_item_box.setItemText(7, QCoreApplication.translate("MainWindow", u"Wp2", None))
-        self.view_item_box.setItemText(8, QCoreApplication.translate("MainWindow", u"Vf0", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate(
+            "MainWindow", u"Wafer mapping", None))
+        self.label_7.setText(QCoreApplication.translate(
+            "MainWindow", u"Wafer ID:", None))
+        self.label_5.setText(QCoreApplication.translate(
+            "MainWindow", u"\u7e6a\u5716\u9805\u76ee\uff1a", None))
+        self.label_6.setText(QCoreApplication.translate(
+            "MainWindow", u"Color Bar \u4e0a\u9650\uff1a", None))
+        self.label_8.setText(QCoreApplication.translate(
+            "MainWindow", u"Color Bar \u4e0b\u9650\uff1a", None))
+        self.view_item_box.setItemText(
+            0, QCoreApplication.translate("MainWindow", u"Vf1", None))
+        self.view_item_box.setItemText(
+            1, QCoreApplication.translate("MainWindow", u"Vf2", None))
+        self.view_item_box.setItemText(
+            2, QCoreApplication.translate("MainWindow", u"Vr1", None))
+        self.view_item_box.setItemText(
+            3, QCoreApplication.translate("MainWindow", u"Ir1", None))
+        self.view_item_box.setItemText(
+            4, QCoreApplication.translate("MainWindow", u"Rs", None))
+        self.view_item_box.setItemText(
+            5, QCoreApplication.translate("MainWindow", u"Iv2", None))
+        self.view_item_box.setItemText(
+            6, QCoreApplication.translate("MainWindow", u"Wd2", None))
+        self.view_item_box.setItemText(
+            7, QCoreApplication.translate("MainWindow", u"Wp2", None))
+        self.view_item_box.setItemText(
+            8, QCoreApplication.translate("MainWindow", u"Vf0", None))
 
-        self.read_data_button.setText(QCoreApplication.translate("MainWindow", u"\u8b80\u53d6\u6a94\u6848", None))
-        self.mapping_button.setText(QCoreApplication.translate("MainWindow", u"\u7e6a\u88fd\u5716\u50cf", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Data table", None))
+        self.read_data_button.setText(QCoreApplication.translate(
+            "MainWindow", u"\u8b80\u53d6\u6a94\u6848", None))
+        self.mapping_button.setText(QCoreApplication.translate(
+            "MainWindow", u"\u7e6a\u88fd\u5716\u50cf", None))
+        self.save_chip_info_button.setText(QCoreApplication.translate(
+            "MainWindow", u"\u5132\u5b58chip\u8cc7\u8a0a", None))
+        self.label.setText(QCoreApplication.translate(
+            "MainWindow", u"Data table", None))
         ___qtablewidgetitem = self.view_data_table.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u7247\u865f", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate(
+            "MainWindow", u"\u7247\u865f", None))
         ___qtablewidgetitem1 = self.view_data_table.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"X", None));
+        ___qtablewidgetitem1.setText(
+            QCoreApplication.translate("MainWindow", u"X", None))
         ___qtablewidgetitem2 = self.view_data_table.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Y", None));
+        ___qtablewidgetitem2.setText(
+            QCoreApplication.translate("MainWindow", u"Y", None))
         ___qtablewidgetitem3 = self.view_data_table.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Vf1", None));
+        ___qtablewidgetitem3.setText(
+            QCoreApplication.translate("MainWindow", u"Vf1", None))
         ___qtablewidgetitem4 = self.view_data_table.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Vf2", None));
+        ___qtablewidgetitem4.setText(
+            QCoreApplication.translate("MainWindow", u"Vf2", None))
         ___qtablewidgetitem5 = self.view_data_table.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Vr1", None));
+        ___qtablewidgetitem5.setText(
+            QCoreApplication.translate("MainWindow", u"Vr1", None))
         ___qtablewidgetitem6 = self.view_data_table.horizontalHeaderItem(6)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Ir1", None));
+        ___qtablewidgetitem6.setText(
+            QCoreApplication.translate("MainWindow", u"Ir1", None))
         ___qtablewidgetitem7 = self.view_data_table.horizontalHeaderItem(7)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Rs", None));
+        ___qtablewidgetitem7.setText(
+            QCoreApplication.translate("MainWindow", u"Rs", None))
         ___qtablewidgetitem8 = self.view_data_table.horizontalHeaderItem(8)
-        ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"Iv2", None));
+        ___qtablewidgetitem8.setText(
+            QCoreApplication.translate("MainWindow", u"Iv2", None))
         ___qtablewidgetitem9 = self.view_data_table.horizontalHeaderItem(9)
-        ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Wd2", None));
+        ___qtablewidgetitem9.setText(
+            QCoreApplication.translate("MainWindow", u"Wd2", None))
         ___qtablewidgetitem10 = self.view_data_table.horizontalHeaderItem(10)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"Vf0", None));
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Test message", None))
+        ___qtablewidgetitem10.setText(
+            QCoreApplication.translate("MainWindow", u"Vf0", None))
+        self.label_2.setText(QCoreApplication.translate(
+            "MainWindow", u"\u88ab\u9078\u53d6chip\u7684\u8cc7\u8a0a", None))
+        ___qtablewidgetitem11 = self.specific_chip_table.horizontalHeaderItem(
+            0)
+        ___qtablewidgetitem11.setText(QCoreApplication.translate(
+            "MainWindow", u"\u7247\u865f", None))
+        ___qtablewidgetitem12 = self.specific_chip_table.horizontalHeaderItem(
+            1)
+        ___qtablewidgetitem12.setText(
+            QCoreApplication.translate("MainWindow", u"X", None))
+        ___qtablewidgetitem13 = self.specific_chip_table.horizontalHeaderItem(
+            2)
+        ___qtablewidgetitem13.setText(
+            QCoreApplication.translate("MainWindow", u"Y", None))
+        ___qtablewidgetitem14 = self.specific_chip_table.horizontalHeaderItem(
+            3)
+        ___qtablewidgetitem14.setText(
+            QCoreApplication.translate("MainWindow", u"Vf1", None))
+        ___qtablewidgetitem15 = self.specific_chip_table.horizontalHeaderItem(
+            4)
+        ___qtablewidgetitem15.setText(
+            QCoreApplication.translate("MainWindow", u"Vf2", None))
+        ___qtablewidgetitem16 = self.specific_chip_table.horizontalHeaderItem(
+            5)
+        ___qtablewidgetitem16.setText(
+            QCoreApplication.translate("MainWindow", u"Vr1", None))
+        ___qtablewidgetitem17 = self.specific_chip_table.horizontalHeaderItem(
+            6)
+        ___qtablewidgetitem17.setText(
+            QCoreApplication.translate("MainWindow", u"Ir1", None))
+        ___qtablewidgetitem18 = self.specific_chip_table.horizontalHeaderItem(
+            7)
+        ___qtablewidgetitem18.setText(
+            QCoreApplication.translate("MainWindow", u"Rs", None))
+        ___qtablewidgetitem19 = self.specific_chip_table.horizontalHeaderItem(
+            8)
+        ___qtablewidgetitem19.setText(
+            QCoreApplication.translate("MainWindow", u"Iv2", None))
+        ___qtablewidgetitem20 = self.specific_chip_table.horizontalHeaderItem(
+            9)
+        ___qtablewidgetitem20.setText(
+            QCoreApplication.translate("MainWindow", u"Wd2", None))
+        ___qtablewidgetitem21 = self.specific_chip_table.horizontalHeaderItem(
+            10)
+        ___qtablewidgetitem21.setText(
+            QCoreApplication.translate("MainWindow", u"Vf0", None))
     # retranslateUi
-

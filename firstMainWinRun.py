@@ -60,6 +60,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # slot區
         self.read_data_button.clicked.connect(
             self.read_ma2_CSV)  # 儲存資訊至表格
+        self.save_chip_info_button.clicked.connect(
+            self.save_chip_info_as_xlsx)
         self.wafer_id_box.activated.connect(
             lambda x: self.set_Wafer_Select(self.wafer_id_box))
         self.view_item_box.activated.connect(
@@ -287,7 +289,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                     # 啥也不做，也不更新資料
                     pass
 
-    # TODO:點選chip後可以儲存chip資訊
+    # 點選chip後可以儲存chip資訊
     def mouse_on_click(self, event: MouseEvent):
 
         # 當按下左鍵
@@ -373,7 +375,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
                 f'已擷取Chip數量:{len(self.df_specific_ma2)}')
 
             # 測試用，檢查df
-            self.df_specific_ma2.to_clipboard()
+            # self.df_specific_ma2.to_clipboard()
 
     # 得到鼠標現在座標
     def get_mouse_cord(self, event: MouseEvent):
@@ -392,7 +394,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
         return xy_index_of_mouse
 
-    # TODO:儲存擷取chip相關資訊
+    # 儲存擷取chip相關資訊
+    @Slot()
+    def save_chip_info_as_xlsx(self):
+        try:
+            # 取得存檔路徑
+            file_save_path, _ = QFileDialog.getSaveFileName(self, caption='另存新檔', dir=os.path.expanduser("~/Desktop"),
+                                                            filter="Excel 活頁簿(*.xlsx)")
+            # 存成csv檔
+            self.df_specific_ma2.to_excel(
+                excel_writer=file_save_path, index=False)
+        except:
+            pass
+
     # TODO:將mapping圖放入UI內
 
 
